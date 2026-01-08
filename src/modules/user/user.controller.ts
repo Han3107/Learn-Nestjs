@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 
@@ -11,12 +11,27 @@ export class UserController {
     console.log('instance user Controller created');
   }
   @Get() //->users/
-  index(@Query() query: any) {
+  index() {
     return [this.userService.getUsers(), this.authService.login()];
+  }
+
+  @Post()
+  create() {
+    return 'Create User';
   }
 
   @Get('profile') //->user/profile
   profile() {
     return 'User Profile Page';
+  }
+
+  @Delete()
+  remove() {
+    return 'Delete User';
+  }
+
+  @Get('/:id')
+  show(@Param('id') id: string) {
+    return `Show User with ID: ${id}`;
   }
 }
