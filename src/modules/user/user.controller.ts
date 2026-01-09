@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Query,
+  Body,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthService } from './auth.service';
 
@@ -10,14 +18,15 @@ export class UserController {
   ) {
     console.log('instance user Controller created');
   }
+
   @Get() //->users/
-  index() {
-    return [this.userService.getUsers(), this.authService.login()];
+  index(@Query() query: any) {
+    return { keyword: query.keyword, category: query.category };
   }
 
   @Post()
-  create() {
-    return 'Create User';
+  create(@Body() body: any) {
+    return body;
   }
 
   @Get('profile') //->user/profile
