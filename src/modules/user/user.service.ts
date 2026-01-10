@@ -1,12 +1,17 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { DatabaseService } from 'src/db/database.service';
+import { User } from './user.entity';
+import { Repository } from 'typeorm';
 
-@Injectable({ scope: Scope.TRANSIENT })
+@Injectable()
 export class UserService {
-  constructor(private readonly db: DatabaseService) {
-    console.log('instance UserService created');
-  }
-  getUsers() {
-    return this.db.FindAll();
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
+
+  findAll(): Promise<User[]> {
+    return this.usersRepository.find();
   }
 }
